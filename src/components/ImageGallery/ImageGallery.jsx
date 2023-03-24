@@ -1,15 +1,29 @@
+// import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+
 
 import StyledUl from './ImageGallery.styled';
 // import PropTypes from 'prop-types'
 
 
 export const ImageGallery = ({ photos, toggleModal}) => {
+  // const handleScroll = () => {
+  //   window.scrollTo({
+  //     top: document.documentElement.scrollHeight,
+  //     behavior: "smooth",
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   handleScroll();
+  // }, []);
+  
   return (
    <>
    
     <StyledUl>
+    
       {photos.map(({ id, webformatURL, largeImageURL, tags }) => {
         return (
           <ImageGalleryItem
@@ -23,6 +37,7 @@ export const ImageGallery = ({ photos, toggleModal}) => {
         );
       })}
     </StyledUl>
+    {/* {handleScroll()} */}
      
      </>
 
