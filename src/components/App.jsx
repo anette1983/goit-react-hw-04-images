@@ -17,6 +17,16 @@ export const App = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [imageAlt, setImageAlt] = useState('');
 
+  // const scrollToNextPage = () => {
+  //   const pageHeight = document.documentElement.scrollHeight;
+  //   const windowHeight = window.innerHeight * 2;
+  //   const scrollDistance = pageHeight + windowHeight;
+  //   window.scrollTo({
+  //     top: scrollDistance,
+  //     behavior: "auto"
+  //   });
+  // };
+
   const getPhotos = async (query, page) => {
     setIsLoading(true);
 
@@ -32,6 +42,7 @@ export const App = () => {
         alert(`There is no photos for ${query} query`);
       }
       setPhotos(prevPhotos => [...prevPhotos, ...response.hits]);
+      //  scrollToNextPage();
     } catch (error) {
       setError(error);
     } finally {
@@ -40,10 +51,11 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (!searchQuery ) {
+    if (!searchQuery) {
       return;
     }
     getPhotos(searchQuery, page);
+    //  scrollToNextPage();
   }, [searchQuery, page]);
 
   const handleSearchSubmit = query => {
@@ -67,8 +79,6 @@ export const App = () => {
     setLargeImage(image);
     setImageAlt(imageTags);
   };
-  
-  
 
   return (
     <div className="App">
@@ -80,7 +90,6 @@ export const App = () => {
           toggleModal={toggleModal}
           onLoadMoreClick={loadMoreButton}
         />
-      
       )}
       {isLoading && <Loader />}
       {isVisible && !isLoading && <Button onClick={loadMoreButton} />}
@@ -90,6 +99,3 @@ export const App = () => {
     </div>
   );
 };
-
-
-

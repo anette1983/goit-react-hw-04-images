@@ -1,65 +1,56 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import {BiSearch} from 'react-icons/bi'
-import * as Css from './Searchbar.styled'
+import { BiSearch } from 'react-icons/bi';
+import * as Css from './Searchbar.styled';
 
-export class Searchbar extends Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    
-  };
+const Searchbar = ({ onSubmit }) => {
+  const [searchQuery, setSearchQuery] = useState('');
 
-  state = {
-    searchQuery: '',
-  };
-
-  handleQueryChange = event => {
+  const handleQueryChange = event => {
     const target = event.target.value.toLowerCase();
     console.log('target :>> ', target);
-    this.setState(prevState => ({
-      ...prevState,
-      searchQuery: target,
-    }));
-    
+
+    setSearchQuery(target);
   };
 
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    if(this.state.searchQuery.trim()==='') {
+    if (searchQuery.trim() === '') {
       alert('Fill in search query');
       return;
     }
-    this.props.onSubmit(this.state.searchQuery);
-    this.setState({ searchQuery: '' });
+    onSubmit(searchQuery);
+    setSearchQuery('');
   };
 
- 
-  render() {
-    return (
-      <Css.StyledSearchbar>
-        <Css.StyledForm onSubmit={this.handleSubmit}>
-          <Css.SearchButton type="submit">
-            {/* <span>Search</span>  */}
-            <span><BiSearch/></span> 
-           
-            {/* <span>
+  return (
+    <Css.StyledSearchbar>
+      <Css.StyledForm onSubmit={handleSubmit}>
+        <Css.SearchButton type="submit">
+          <span>
+            <BiSearch />
+          </span>
+
+          {/* <span>
               <BiSearch width="15" height="15"/>
             </span> */}
+        </Css.SearchButton>
 
-          </Css.SearchButton>
+        <input
+          onChange={handleQueryChange}
+          type="text"
+          value={searchQuery}
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </Css.StyledForm>
+    </Css.StyledSearchbar>
+  );
+};
 
-          <input onChange={this.handleQueryChange}
-            type="text"
-            value={this.state.searchQuery}
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </Css.StyledForm>
-      </Css.StyledSearchbar>
-    );
-  }
-}
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default Searchbar;
